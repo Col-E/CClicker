@@ -1,0 +1,28 @@
+// Home tab text
+0:Home
+1:Home
+2:Version History
+3:Usage Guide
+4:This is the guide data
+31:Welcome to Clicker
+32:Hello! I don't know what to put here right now. So for now I'll just have this placeholder text.\n\nClick the items on the menu to see their information.
+// Controls tab text
+100:Controls
+101:Key ID=
+111:Toggle Stat Recording
+112:Toggle Clicker
+113:Toggle GUI
+// Settings tab text
+200:Settings
+201:Active
+211:Minimum Delay
+212:Maximum Delay
+213:Average Delay
+214:Deviation
+215:Targeted Window
+216:Choose a Window
+// Statistics tab text
+300:Statistics
+301:Record some data for details to appear here.
+// Changelog
+401:Initial release
