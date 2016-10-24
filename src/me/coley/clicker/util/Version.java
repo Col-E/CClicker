@@ -1,7 +1,7 @@
 package me.coley.clicker.util;
 
 public class Version {
-    private static final int MAJOR = 1, MINOR = 0;
+    private static final int MAJOR = 1, MINOR = 1;
 
     /**
      * Returns the current version as a string.

@@ -17,6 +17,7 @@
 **/pom.xml
 *.MF
 *.sh
+*.bat
 keybinds.txt
 settings_bool.txt
 settings_num.txt
