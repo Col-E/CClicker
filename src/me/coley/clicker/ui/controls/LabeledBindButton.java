@@ -12,8 +12,8 @@ import com.sun.jna.platform.win32.WinUser.KBDLLHOOKSTRUCT;
 import me.coley.clicker.Keybinds;
 import me.coley.clicker.ui.BotGUI;
 import me.coley.clicker.value.Updatable;
-import me.coley.jnathread.hook.key.KeyEventReceiver;
-import me.coley.jnathread.hook.key.KeyHook;
+import me.coley.simplejna.hook.key.KeyEventReceiver;
+import me.coley.simplejna.hook.key.KeyHook;
 
 @SuppressWarnings("serial")
 /**

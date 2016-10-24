@@ -4,7 +4,7 @@ import com.sun.jna.platform.win32.WinUser.KBDLLHOOKSTRUCT;
 
 import me.coley.clicker.Keybinds;
 import me.coley.clicker.ui.BotGUI;
-import me.coley.jnathread.hook.key.KeyEventReceiver;
+import me.coley.simplejna.hook.key.KeyEventReceiver;
 
 /**
  * Main key-input handler of the autoclicker.

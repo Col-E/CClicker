@@ -5,10 +5,10 @@ import java.util.logging.Level;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
 import me.coley.clicker.ui.BotGUI;
-import me.coley.jnathread.hook.mouse.MouseEventReceiver;
-import me.coley.jnathread.hook.mouse.MouseHook;
-import me.coley.jnathread.hook.mouse.struct.MOUSEHOOKSTRUCT;
-import me.coley.jnathread.hook.mouse.struct.MouseButtonType;
+import me.coley.simplejna.hook.mouse.MouseEventReceiver;
+import me.coley.simplejna.hook.mouse.MouseHook;
+import me.coley.simplejna.hook.mouse.struct.MOUSEHOOKSTRUCT;
+import me.coley.simplejna.hook.mouse.struct.MouseButtonType;
 
 /**
  * Handler for the recording mouse inputs.

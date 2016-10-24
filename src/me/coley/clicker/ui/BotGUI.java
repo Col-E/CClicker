@@ -38,8 +38,8 @@ import me.coley.clicker.util.Lang;
 import me.coley.clicker.util.Misc;
 import me.coley.clicker.value.BooleanValue;
 import me.coley.clicker.value.NumericValue;
-import me.coley.jnathread.Windows;
-import me.coley.jnathread.hook.key.KeyHook;
+import me.coley.simplejna.Windows;
+import me.coley.simplejna.hook.key.KeyHook;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;

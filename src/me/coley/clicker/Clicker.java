@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.logging.Level;
 
 import me.coley.clicker.ui.BotGUI;
-import me.coley.jnathread.Mouse;
-import me.coley.jnathread.Windows;
+import me.coley.simplejna.Mouse;
+import me.coley.simplejna.Windows;
 
 /**
  * Handler for the clicking process.
