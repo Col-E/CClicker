@@ -117,7 +117,7 @@ public class BotGUI {
     private static void initialize() {
         frmClicker = new JFrame();
         frmClicker.setResizable(false);
-        frmClicker.setTitle("Clicker");
+        frmClicker.setTitle("CClicker");
         frmClicker.setBounds(100, 100, 422, 398);
         frmClicker.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frmClicker.addWindowListener(new WindowAdapter() {
