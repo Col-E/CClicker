@@ -8,7 +8,7 @@ CClicker is a simple auto-clicker made using JNA and Apache's Math library.
 * Gaussian based random
   * Record your own clicking statistics and simulate it
 * All settings accessible via GUI
-* Edit any of the GUI's text
+* Translatable GUI text using txt files
 
 # Images
 
