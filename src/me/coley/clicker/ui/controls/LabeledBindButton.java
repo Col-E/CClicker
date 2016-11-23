@@ -11,7 +11,7 @@ import com.sun.jna.platform.win32.WinUser.KBDLLHOOKSTRUCT;
 
 import me.coley.clicker.Keybinds;
 import me.coley.clicker.ui.BotGUI;
-import me.coley.clicker.value.Updatable;
+import me.coley.clicker.value.ValueUser;
 import me.coley.simplejna.hook.key.KeyEventReceiver;
 import me.coley.simplejna.hook.key.KeyHook;
 
@@ -21,7 +21,7 @@ import me.coley.simplejna.hook.key.KeyHook;
  * 
  * @author Matt
  */
-public class LabeledBindButton extends LabeledComponent implements Updatable {
+public class LabeledBindButton extends LabeledComponent implements ValueUser {
     private final int settingID;
     private JButton btnBind;
 
@@ -31,8 +31,8 @@ public class LabeledBindButton extends LabeledComponent implements Updatable {
      * @param settingID
      *            Keybind ID.
      */
-    public LabeledBindButton(int settingID) {
-        super(BotGUI.keybinds.getName(settingID));
+    public LabeledBindButton(BotGUI gui, int settingID) {
+        super(gui, gui.keybinds.getName(settingID));
         this.settingID = settingID;
         create();
     }
@@ -46,23 +46,23 @@ public class LabeledBindButton extends LabeledComponent implements Updatable {
     public void keyChanged(int vkCode, KeyEventReceiver notifier) {
         BotGUI.log.log(Level.INFO, "Keybind updated: " + vkCode);
         // Update the keybind
-        BotGUI.keybinds.update(settingID, vkCode);
+        gui.keybinds.updateKeybind(settingID, vkCode);
         // Update button
-        update();
+        onValueUpdated();
         // Stop hook
         KeyHook.unhook(notifier);
     }
 
     @Override
-    public void update() {
-        btnBind.setText("Key ID:" + Keybinds.getKeyName(BotGUI.keybinds.getKey(settingID)));
+    public void onValueUpdated() {
+        btnBind.setText("Key ID:" + Keybinds.getKeyName(gui.keybinds.getKey(settingID)));
     }
 
     @Override
     public void create() {
         setLayout(null);
         setPreferredSize(new Dimension(130, 48));
-        btnBind = new JButton("Key ID:" + BotGUI.keybinds.getKey(settingID));
+        btnBind = new JButton("Key ID:" + gui.keybinds.getKey(settingID));
         btnBind.setFocusable(false);
         btnBind.addActionListener(new ActionListener() {
             @Override

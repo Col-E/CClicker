@@ -13,22 +13,27 @@ import me.coley.simplejna.hook.key.KeyEventReceiver;
  *
  */
 public class KeyHandler extends KeyEventReceiver {
+	private final BotGUI gui;
 
-    @Override
-    public boolean onKeyPress(boolean sys, KBDLLHOOKSTRUCT info) {
-        int i = info.vkCode;
-        if (i == BotGUI.keybinds.getKey(Keybinds.BIND_TOGGLE_RECORDING)) {
-            BotGUI.stats.toggle();
-        } else if (i == BotGUI.keybinds.getKey(Keybinds.BIND_TOGGLE_CLICKER)) {
-            BotGUI.clicker.toggle();
-        } else if (i == BotGUI.keybinds.getKey(Keybinds.BIND_TOGGLE_GUI)) {
-            BotGUI.toggleVisible();
-        }
-        return false;
-    }
+	public KeyHandler(BotGUI gui) {
+		this.gui = gui;
+	}
 
-    @Override
-    public boolean onKeyRelease(boolean sys, KBDLLHOOKSTRUCT info) {
-        return false;
-    }
+	@Override
+	public boolean onKeyPress(boolean sys, KBDLLHOOKSTRUCT info) {
+		int i = info.vkCode;
+		if (i == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_RECORDING)) {
+			gui.stats.toggle();
+		} else if (i == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_CLICKER)) {
+			gui.clicker.toggle();
+		} else if (i == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_GUI)) {
+			gui.toggleVisible();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onKeyRelease(boolean sys, KBDLLHOOKSTRUCT info) {
+		return false;
+	}
 }

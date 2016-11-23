@@ -3,7 +3,7 @@
 1:Home
 2:Version History
 3:Usage Guide
-4:This is the guide data
+4:This tool aims to make emulating realistic clicking easy. To get started you need to choose your keybinds for the tool. This can be done in the second tab labeled "Controls".\n\nIn the Controls tab there are buttons that show the current keybind for different actions. To bind a key to an action, click the button and press a key.\nThe first action is "Stat Recording". Once bound, press the key on your keyboard and begin clicking. This activates a recording session where your clicks are read and analyzed. Pressing the key again will end the session and your settings will be updated to match your own personal clicking data.\nThe second action is "Toggle Clicker". Once bound, press the key on your keyboard and the program will begin clicking according to the current settings. Pressing the key again will end the automated clicking.\nThe third action is "Toggle GUI". Once bound, press the key on your keyboard and the program will dissapear. Pressing the key again will restore the program to view.\n\nThe next tab is "Settings" where you can hand-tweak different values of the auto-clicker.\nFirstly there are four sliders. One for the minimum click delay, the maximum click delay, the average delay, and the deviation of the delay. The minimum and maximum act as bounds for the delay between clicks. The average is where most delays will reside around. The deviation determines how strongly delays will be off from the average. Higher deviation means more erradic clicking. Lower deviation means more consistent clicking.\nThe next setting is "Targeted Window". If the checkbox is selected the auto-clicker will only click if the window title of the program currently in use matches a given text. A list of program titles are generated when the auto-clicker opens.\n\nThe next tab is "Statistics". This tab shows the most recent results of your statistical recording.
 31:Welcome to Clicker
 32:Hello! I don't know what to put here right now. So for now I'll just have this placeholder text.\n\nClick the items on the menu to see their information.
 // Controls tab text
@@ -26,3 +26,4 @@
 301:Record some data for details to appear here.
 // Changelog
 401:Initial release
+402:Fixed issue where the statistics key-interceptor would never be destroyed.\nRefactored code and added documentation to a few more classes.

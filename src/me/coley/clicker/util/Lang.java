@@ -9,9 +9,14 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Maps;
 
+/**
+ * Simple i18n
+ * 
+ * @author Matt
+ */
 public class Lang {
-    private static final Map<Integer, String> lang = Maps.newHashMap();
-    //@formatter:off
+	private static final Map<Integer, String> lang = Maps.newHashMap();
+	//@formatter:off
 	public static final int 
 	// Home tab
 	HOME_TITLE = 0,
@@ -40,30 +45,38 @@ public class Lang {
 	STATISTICS_TITLE = 300,
 	STATISTICS_RECORD_SOME_DATA = 301,
 	// Changelog
-	CHANGELOG_1_0 = 401;
-	;
+	CHANGELOG_1_0 = 401,
+	CHANGELOG_1_1 = 402;
 	//@formatter:on
-    static {
-        File langFile = new File("Lang.txt");
-        List<String> lines = null;
-        try {
-            lines = FileUtils.readLines(langFile);
-            for (String line : lines) {
-                if (line.startsWith("/")) continue;
-                line = line.replace("\\n", "\n");
-                line = line.replace("\\t", "\t");
-                String[] data = line.split(":");
-                int key = Integer.parseInt(data[0]);
-                String msg = data[1];
-                lang.put(key, msg);
-            }
-        } catch (IOException e) {
-            // TODO: Warn about file IO error with language file
-            e.printStackTrace();
-        }
-    }
+	static {
+		File langFile = new File("Lang.txt");
+		List<String> lines = null;
+		try {
+			lines = FileUtils.readLines(langFile);
+			for (String line : lines) {
+				if (line.startsWith("/"))
+					continue;
+				line = line.replace("\\n", "\n");
+				line = line.replace("\\t", "\t");
+				String[] data = line.split(":");
+				int key = Integer.parseInt(data[0]);
+				String msg = data[1];
+				lang.put(key, msg);
+			}
+		} catch (IOException e) {
+			// TODO: Warn about file IO error with language file
+			e.printStackTrace();
+		}
+	}
 
-    public static String get(int i) {
-        return lang.get(i);
-    }
+	/**
+	 * Retreive a translated string given an identifier 'i'.
+	 * 
+	 * @param i
+	 *            String ID
+	 * @return
+	 */
+	public static String get(int i) {
+		return lang.get(i);
+	}
 }

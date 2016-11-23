@@ -8,7 +8,13 @@ package me.coley.clicker.util;
  */
 public interface Saveable {
 
-    public void load();
+	/**
+	 * Loads data.
+	 */
+	public void load();
 
-    public void save();
+	/**
+	 * Stores data.
+	 */
+	public void save();
 }

@@ -4,11 +4,10 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 
+import me.coley.clicker.jna.StatRecorder;
 import me.coley.clicker.ui.BotGUI;
 import me.coley.simplejna.hook.mouse.MouseEventReceiver;
 import me.coley.simplejna.hook.mouse.MouseHook;
-import me.coley.simplejna.hook.mouse.struct.MOUSEHOOKSTRUCT;
-import me.coley.simplejna.hook.mouse.struct.MouseButtonType;
 
 /**
  * Handler for the recording mouse inputs.
@@ -16,81 +15,52 @@ import me.coley.simplejna.hook.mouse.struct.MouseButtonType;
  * @author Matt
  *
  */
-public class Stats {
-    private boolean status;
-    private DescriptiveStatistics clickFrequency;
-    private DescriptiveStatistics clicksX;
-    private DescriptiveStatistics clicksY;
-    private MouseEventReceiver lastMouseHook;
+public class Stats implements Togglable {
+	private final BotGUI gui;
+	private boolean status;
+	private DescriptiveStatistics frequency;
+	private MouseEventReceiver mouseHook;
+	
+	public Stats(BotGUI gui){
+		this.gui = gui;
+	}
 
-    private void onDisable() {
-        // Finished, save stats
-        BotGUI.log.log(Level.INFO, "Finished recording.");
-        if (lastMouseHook != null) {
-            MouseHook.unhook(lastMouseHook);
-        }
-        BotGUI.onRecordingFinished();
-    }
+	@Override
+	public void onEnable() {
+		// Start new stats
+		BotGUI.log.log(Level.INFO, "Beginning recording of mouse input.");
+		frequency = new DescriptiveStatistics();
+		BotGUI.log.log(Level.INFO, "Creating keybind-listener...");
+		mouseHook = new StatRecorder(this);
+		MouseHook.hook(mouseHook);
+	}
 
-    private void onEnable() {
-        // Start new stats
-        BotGUI.log.log(Level.INFO, "Beginning recording of mouse input.");
-        clickFrequency = new DescriptiveStatistics();
-        clicksX = new DescriptiveStatistics();
-        clicksY = new DescriptiveStatistics();
-        BotGUI.log.log(Level.INFO, "Creating keybind-listener...");
-        MouseEventReceiver me = new MouseEventReceiver() {
-            private long last = -1;
+	@Override
+	public void onDisable() {
+		// Finished, save stats
+		BotGUI.log.log(Level.INFO, "Finished recording.");
+		if (mouseHook != null) {
+			MouseHook.unhook(mouseHook);
+		}
+		gui.onRecordingFinished();
+	}
 
-            @Override
-            public boolean onMousePress(MouseButtonType type, MOUSEHOOKSTRUCT info) {
-                long now = System.currentTimeMillis();
-                if (last != -1) {
-                    clickFrequency.addValue(now - last);
-                }
-                last = now;
-                clicksX.addValue(info.pt.x);
-                clicksY.addValue(info.pt.y);
-                return false;
-            }
+	/**
+	 * Retrieve the statistics about click frequency. Measured in milliseconds.
+	 * 
+	 * @return
+	 */
+	public DescriptiveStatistics getFrequencyData() {
+		return frequency;
+	}
 
-            @Override
-            public boolean onMouseRelease(MouseButtonType type, MOUSEHOOKSTRUCT info) {
-                return false;
-            }
+	@Override
+	public void setStatus(boolean value) {
+		this.status = value;
+	}
 
-            @Override
-            public boolean onMouseScroll(boolean down, MOUSEHOOKSTRUCT info) {
-                return false;
-            }
-
-            @Override
-            public boolean onMouseMove(MOUSEHOOKSTRUCT info) {
-                return false;
-            }
-        };
-        MouseHook.hook(me);
-    }
-
-    public void toggle() {
-        status = !status;
-        if (status) {
-            onEnable();
-        } else {
-            onDisable();
-        }
-    }
-
-    public DescriptiveStatistics getFrequencyData() {
-        return clickFrequency;
-    }
-
-    public DescriptiveStatistics getPosXData() {
-        return clicksX;
-    }
-
-    public DescriptiveStatistics getPosYData() {
-        return clicksY;
-    }
-
+	@Override
+	public boolean getStatus() {
+		return status;
+	}
 }

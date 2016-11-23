@@ -6,6 +6,8 @@ import java.awt.Label;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import me.coley.clicker.ui.BotGUI;
+
 /**
  * Custom component (JPanel) containing X (Being another component) with an
  * associated label.
@@ -15,27 +17,29 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public abstract class LabeledComponent extends JPanel {
-    protected final String name;
+	protected final String name;
+	protected final BotGUI gui;
 
-    public LabeledComponent(String name) {
-        this.name = name;
-        // Vertical align components
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-    }
+	public LabeledComponent(BotGUI gui, String name) {
+		this.gui = gui;
+		this.name = name;
+		// Vertical align components
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+	}
 
-    /**
-     * Creates a Label with the stored name.
-     * 
-     * @return
-     */
-    protected final Label genNameLabel() {
-        Label l = new Label(name);
-        l.setFont(new Font("Arial", Font.BOLD, 10));
-        return l;
-    }
+	/**
+	 * Creates a Label with the stored name.
+	 * 
+	 * @return
+	 */
+	protected final Label genNameLabel() {
+		Label l = new Label(name);
+		l.setFont(new Font("Arial", Font.BOLD, 10));
+		return l;
+	}
 
-    /**
-     * Initiate the component.
-     */
-    public abstract void create();
+	/**
+	 * Initiate the component.
+	 */
+	public abstract void create();
 }
