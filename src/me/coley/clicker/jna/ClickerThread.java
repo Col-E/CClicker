@@ -1,7 +1,8 @@
-package me.coley.clicker;
+package me.coley.clicker.jna;
 
 import java.util.Random;
 
+import me.coley.clicker.Values;
 import me.coley.clicker.ui.BotGUI;
 import me.coley.clicker.util.NumberUtil;
 import me.coley.simplejna.Mouse;

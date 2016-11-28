@@ -2,6 +2,7 @@ package me.coley.clicker;
 
 import java.util.logging.Level;
 
+import me.coley.clicker.jna.ClickerThread;
 import me.coley.clicker.ui.BotGUI;
 
 /**
