@@ -27,25 +27,26 @@ public class Agent {
 	}
 
 	public static void premain(String agentArgs) {
-		try {
-			if (agentArgs.contains("dir:")) {
-				String dir = agentArgs.substring(agentArgs.indexOf(":") + 1);
-				MainGUI.main(new String[] { "dir", dir });
-			} else {
-				MainGUI.main(new String[] {});
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (agentArgs.contains("dir:")) {
+			String dir = agentArgs.substring(agentArgs.indexOf(":") + 1);
+			MainGUI.main(new String[] { "dir", dir });
+		} else {
+			MainGUI.main(new String[] {});
 		}
 	}
 
 	/**
-	 * Loads this agent into a given VM.
+	 * Loads this agent into a given VM. 
 	 * 
 	 * @param agentPath
 	 *            The path to the agent jar
 	 */
 	public static void loadAgentToTarget(String target, String options) {
+		// Oddly though using this only works half of the times.
+		// Tried it 10 times command line. 
+		// Five times it injected into the target VM
+		// Five times it ran as if no arguments were given at all
+		// TODO: Figure out why this behaves oddly
 		for (VirtualMachineDescriptor vm : VirtualMachine.list()) {
 			if (vm.displayName().contains(target)) {
 				loadAgent(getCurrentLocation(), vm.id(), options);
@@ -65,7 +66,6 @@ public class Agent {
 			VirtualMachine vm = VirtualMachine.attach(vmID);
 			vm.loadAgent(agentPath, options);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}
@@ -76,7 +76,7 @@ public class Agent {
 	 * @return
 	 */
 	private static String getCurrentLocation() {
-		// Wrapped in File.getAbsolutePath() because it looks nicer.
+		// Wrapped in File.getAbsolutePath() because the path it returns it looks nicer.
 		return new File(Agent.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getAbsolutePath();
 	}
 }
