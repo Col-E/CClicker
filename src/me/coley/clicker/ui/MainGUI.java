@@ -39,9 +39,11 @@ import me.coley.clicker.value.NumericValue;
 import me.coley.simplejna.hook.key.KeyHook;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import java.util.Random;
 import java.util.logging.Level;
@@ -57,6 +59,7 @@ public class MainGUI {
 	public final Clicker clicker = new Clicker(this);
 	public final Stats stats = new Stats(this);
 	private final KeyHandler handler = new KeyHandler(this);
+	public GraphingPanel graph;
 	private JFrame frmClicker;
 	private JTextArea txtStats;
 
@@ -194,8 +197,10 @@ public class MainGUI {
 
 		JPanel tabStatistics = new JPanel();
 		tabs.addTab(Lang.get(Lang.STATISTICS_TITLE), null, tabStatistics, null);
-		tabStatistics.setLayout(new BorderLayout(0, 0));
+		tabStatistics.setLayout(new BorderLayout());
 		{
+			JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			graph = new GraphingPanel();
 			txtStats = new JTextArea();
 			txtStats.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			txtStats.setEditable(false);
@@ -203,7 +208,11 @@ public class MainGUI {
 			txtStats.setText(Lang.get(Lang.STATISTICS_RECORD_SOME_DATA));
 			txtStats.setBackground(SystemColor.control);
 			txtStats.setFont(new Font("Arial", Font.PLAIN, 12));
-			tabStatistics.add(txtStats, BorderLayout.CENTER);
+
+			sp.setTopComponent(graph);
+			sp.setBottomComponent(new JScrollPane(txtStats));
+			sp.setDividerLocation(frmClicker.getHeight() / 2);
+			tabStatistics.add(sp, BorderLayout.CENTER);
 		}
 		log.log(Level.INFO, "Displaying gui");
 		frmClicker.setVisible(true);
@@ -277,5 +286,4 @@ public class MainGUI {
 	public void toggleVisible() {
 		frmClicker.setVisible(!frmClicker.isVisible());
 	}
-
 }

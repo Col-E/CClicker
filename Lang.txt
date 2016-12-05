@@ -27,4 +27,4 @@
 // Changelog
 401:Initial release
 402:Fixed issue where the statistics key-interceptor would never be destroyed.\n\nRefactored code and added documentation to a few more classes.
-403:Added start argument to inject into other JVM processes.\n\nAdded start argument to change settings directory.\n\nSliders now show their numerical value.\n\nFixed content on the Home tab not being padded making it harder to read.\n\nFixed content on the Home tab having an ugly border.\n\nFixed statistic data not being padded making it harder to read.\n\nFixed combo-box going off the page.\n\nMisc. tiny code changes.
+403:Added start argument to inject into other JVM processes.\n\nAdded start argument to change settings directory.\n\nAdded a basic graph display to statistics.\n\nSliders now show their numerical value.\n\nFixed content on the Home tab not being padded making it harder to read.\n\nFixed content on the Home tab having an ugly border.\n\nFixed statistic data not being padded making it harder to read.\n\nFixed combo-box going off the page.\n\nMisc. tiny code changes.

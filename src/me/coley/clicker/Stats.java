@@ -31,7 +31,7 @@ public class Stats implements Togglable {
 		MainGUI.log.log(Level.INFO, "Beginning recording of mouse input.");
 		frequency = new DescriptiveStatistics();
 		MainGUI.log.log(Level.INFO, "Creating keybind-listener...");
-		mouseHook = new StatRecorder(this);
+		mouseHook = new StatRecorder(this, gui.graph);
 		MouseHook.hook(mouseHook);
 	}
 
