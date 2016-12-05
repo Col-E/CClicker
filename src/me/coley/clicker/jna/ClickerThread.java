@@ -3,16 +3,16 @@ package me.coley.clicker.jna;
 import java.util.Random;
 
 import me.coley.clicker.Values;
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 import me.coley.clicker.util.NumberUtil;
 import me.coley.simplejna.Mouse;
 import me.coley.simplejna.Windows;
 
 public class ClickerThread extends Thread {
 	private final Random r = new Random();
-	private final BotGUI gui;
+	private final MainGUI gui;
 
-	public ClickerThread(BotGUI clicker) {
+	public ClickerThread(MainGUI clicker) {
 		this.gui = clicker;
 	}
 

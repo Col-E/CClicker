@@ -6,7 +6,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 import me.coley.clicker.util.Lang;
 import me.coley.clicker.value.ValueUser;
 
@@ -26,7 +26,7 @@ public class LabeledCheckbox extends LabeledComponent implements ValueUser {
 	 * 
 	 * @param settingID
 	 */
-	public LabeledCheckbox(BotGUI gui, int settingID) {
+	public LabeledCheckbox(MainGUI gui, int settingID) {
 		super(gui, gui.settings.getName(settingID));
 		this.settingID = settingID;
 		create();

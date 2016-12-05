@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import com.sun.jna.platform.win32.WinUser.KBDLLHOOKSTRUCT;
 
 import me.coley.clicker.Keybinds;
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 import me.coley.clicker.value.ValueUser;
 import me.coley.simplejna.hook.key.KeyEventReceiver;
 import me.coley.simplejna.hook.key.KeyHook;
@@ -31,7 +31,7 @@ public class LabeledBindButton extends LabeledComponent implements ValueUser {
      * @param settingID
      *            Keybind ID.
      */
-    public LabeledBindButton(BotGUI gui, int settingID) {
+    public LabeledBindButton(MainGUI gui, int settingID) {
         super(gui, gui.keybinds.getName(settingID));
         this.settingID = settingID;
         create();
@@ -44,7 +44,7 @@ public class LabeledBindButton extends LabeledComponent implements ValueUser {
      * @param notifier
      */
     public void keyChanged(int vkCode, KeyEventReceiver notifier) {
-        BotGUI.log.log(Level.INFO, "Keybind updated: " + vkCode);
+        MainGUI.log.log(Level.INFO, "Keybind updated: " + vkCode);
         // Update the keybind
         gui.keybinds.updateKeybind(settingID, vkCode);
         // Update button
@@ -67,7 +67,7 @@ public class LabeledBindButton extends LabeledComponent implements ValueUser {
         btnBind.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BotGUI.log.log(Level.INFO, "Creating keybind-listener...");
+                MainGUI.log.log(Level.INFO, "Creating keybind-listener...");
                 btnBind.setEnabled(false);
                 // Create a new keyboard hook that waits for a key to be
                 // pressed.

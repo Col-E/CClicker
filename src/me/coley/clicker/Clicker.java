@@ -3,7 +3,7 @@ package me.coley.clicker;
 import java.util.logging.Level;
 
 import me.coley.clicker.jna.ClickerThread;
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 
 /**
  * Handler for the clicking process.
@@ -12,23 +12,23 @@ import me.coley.clicker.ui.BotGUI;
  *
  */
 public class Clicker implements Togglable {
-	private final BotGUI gui;
+	private final MainGUI gui;
 	private boolean status;
 	private String target;
 
-	public Clicker(BotGUI gui) {
+	public Clicker(MainGUI gui) {
 		this.gui = gui;
 	}
 
 	@Override
 	public void onEnable() {
-		BotGUI.log.log(Level.INFO, "Launching clicker thread...");
+		MainGUI.log.log(Level.INFO, "Launching clicker thread...");
 		new ClickerThread(gui).start();
 	}
 
 	@Override
 	public void onDisable() {
-		BotGUI.log.log(Level.INFO, "Stopping clicker thread...");
+		MainGUI.log.log(Level.INFO, "Stopping clicker thread...");
 	}
 
 	/**

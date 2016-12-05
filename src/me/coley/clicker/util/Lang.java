@@ -46,7 +46,8 @@ public class Lang {
 	STATISTICS_RECORD_SOME_DATA = 301,
 	// Changelog
 	CHANGELOG_1_0 = 401,
-	CHANGELOG_1_1 = 402;
+	CHANGELOG_1_1 = 402,
+	CHANGELOG_1_2 = 403;
 	//@formatter:on
 	static {
 		File langFile = new File("Lang.txt");
@@ -57,7 +58,7 @@ public class Lang {
 				if (line.startsWith("/"))
 					continue;
 				line = line.replace("\\n", "\n");
-				line = line.replace("\\t", "\t");
+				line = line.replace("\\t", "        ");
 				String[] data = line.split(":");
 				int key = Integer.parseInt(data[0]);
 				String msg = data[1];

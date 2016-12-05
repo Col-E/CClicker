@@ -6,7 +6,7 @@ import java.awt.Label;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 
 /**
  * Custom component (JPanel) containing X (Being another component) with an
@@ -18,9 +18,9 @@ import me.coley.clicker.ui.BotGUI;
 @SuppressWarnings("serial")
 public abstract class LabeledComponent extends JPanel {
 	protected final String name;
-	protected final BotGUI gui;
+	protected final MainGUI gui;
 
-	public LabeledComponent(BotGUI gui, String name) {
+	public LabeledComponent(MainGUI gui, String name) {
 		this.gui = gui;
 		this.name = name;
 		// Vertical align components

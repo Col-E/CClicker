@@ -3,7 +3,7 @@ package me.coley.clicker.jna;
 import com.sun.jna.platform.win32.WinUser.KBDLLHOOKSTRUCT;
 
 import me.coley.clicker.Keybinds;
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 import me.coley.simplejna.hook.key.KeyEventReceiver;
 
 /**
@@ -13,9 +13,9 @@ import me.coley.simplejna.hook.key.KeyEventReceiver;
  *
  */
 public class KeyHandler extends KeyEventReceiver {
-	private final BotGUI gui;
+	private final MainGUI gui;
 
-	public KeyHandler(BotGUI gui) {
+	public KeyHandler(MainGUI gui) {
 		this.gui = gui;
 	}
 

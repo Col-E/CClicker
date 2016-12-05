@@ -37,6 +37,8 @@ import me.coley.clicker.value.NumericValue;
 import me.coley.simplejna.hook.key.KeyHook;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 
 import java.util.Random;
@@ -46,7 +48,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import java.awt.FlowLayout;
 
-public class BotGUI {
+public class MainGUI {
 	public static final Logger log = Logger.getLogger("Clicker-Init");
 	public final Values settings = new Values();
 	public final Keybinds keybinds = new Keybinds();
@@ -63,6 +65,7 @@ public class BotGUI {
 		try {
 			log.log(Level.INFO, "Setting java visual theme to 'System'");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			log.log(Level.SEVERE, "Error setting gui theme. Excepttion thrown: " + e.toString());
 		}
@@ -70,7 +73,7 @@ public class BotGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BotGUI gui = new BotGUI();
+					MainGUI gui = new MainGUI();
 					gui.initSettings();
 					gui.initGui();
 					gui.loadSettings();
@@ -162,6 +165,9 @@ public class BotGUI {
 
 			});
 			combo.setModel(SwingUtil.getWindowsModel());
+			combo.setMaximumSize(new Dimension(100, 100));
+			combo.setPreferredSize(new Dimension(frmClicker.getWidth() - 20, 23));
+			combo.setSize(100, 100);
 			tabSettings.add(combo);
 
 		}

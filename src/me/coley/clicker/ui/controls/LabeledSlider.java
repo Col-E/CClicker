@@ -6,7 +6,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import me.coley.clicker.ui.BotGUI;
+import me.coley.clicker.ui.MainGUI;
 import me.coley.clicker.value.NumericValue;
 import me.coley.clicker.value.ValueUser;
 
@@ -21,8 +21,9 @@ public class LabeledSlider extends LabeledComponent implements ValueUser {
 	private final int settingID;
 	private int init, min, max;
 	private JSlider slider;
+	private Label label;
 
-	public LabeledSlider(BotGUI gui, String name, int settingID) {
+	public LabeledSlider(MainGUI gui, String name, int settingID) {
 		super(gui, name);
 		this.settingID = settingID;
 		// Retrieve numeric setting
@@ -35,7 +36,7 @@ public class LabeledSlider extends LabeledComponent implements ValueUser {
 
 	@Override
 	public void create() {
-		Label name = genNameLabel();
+		label = genNameLabel();
 		slider = new JSlider();
 		slider.setFocusable(false);
 		slider.setMinimum(min);
@@ -57,9 +58,11 @@ public class LabeledSlider extends LabeledComponent implements ValueUser {
 			public void stateChanged(ChangeEvent e) {
 				// Update numeric setting when slider is moved
 				gui.settings.getNumericSetting(settingID).setValue(slider.getValue());
+				updateLabel();
 			}
 		});
-		add(name);
+		label.setText(name + ":" + slider.getValue());
+		add(label);
 		add(slider);
 	}
 
@@ -67,5 +70,11 @@ public class LabeledSlider extends LabeledComponent implements ValueUser {
 	public void onValueUpdated() {
 		// Update slider when the associated setting is changed
 		slider.setValue(gui.settings.getNumericSetting(settingID).getCurrent());
+		updateLabel();
+	}
+
+	private void updateLabel() {
+		label.setText(name + ":" + slider.getValue());
+		label.repaint();
 	}
 }
