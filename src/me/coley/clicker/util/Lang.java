@@ -50,7 +50,7 @@ public class Lang {
 	CHANGELOG_1_2 = 403;
 	//@formatter:on
 	static {
-		File langFile = new File("Lang.txt");
+		File langFile = new AbsoluteFile("Lang.txt");
 		List<String> lines = null;
 		try {
 			lines = FileUtils.readLines(langFile);

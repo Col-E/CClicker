@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Maps;
 
+import me.coley.clicker.util.AbsoluteFile;
 import me.coley.clicker.util.Saveable;
 import me.coley.clicker.value.ValueUser;
 
@@ -25,7 +26,7 @@ public class Keybinds implements Saveable {
 	public static int BIND_TOGGLE_CLICKER = 101;
 	public static int BIND_TOGGLE_GUI = 102;
 	// File for saving/loading
-	private static final File fileBinds = new File("keybinds.txt");
+	private static final File fileBinds = new AbsoluteFile("keybinds.txt");
 	// Key to key name map
 	private static final Map<Integer, String> conv = Maps.newHashMap();
 	// Values

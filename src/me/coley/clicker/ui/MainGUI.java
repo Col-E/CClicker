@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -25,6 +26,7 @@ import me.coley.clicker.Clicker;
 import me.coley.clicker.Keybinds;
 import me.coley.clicker.Stats;
 import me.coley.clicker.Values;
+import me.coley.clicker.agent.Agent;
 import me.coley.clicker.jna.KeyHandler;
 import me.coley.clicker.ui.controls.LabeledBindButton;
 import me.coley.clicker.ui.controls.LabeledCheckbox;
@@ -62,10 +64,28 @@ public class MainGUI {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		// Set the settings.dir property so it can be used by AbsoluteFile.
+		String curDir = System.getProperty("user.dir");
+		System.setProperty("settings.dir", curDir);
+		// Handle args if there are any
+		if (args.length >= 2) {
+			String arg1 = args[0];
+			String arg2 = args[1];
+			if (arg1.contains("agent")) {
+				// Agent that runs the program in another VM.
+				String target = arg2;
+				Agent.loadAgentToTarget(target, "dir:" + curDir);
+				return;
+			} else if (arg1.contains("dir")) {
+				// Adjusts the settings.dir property.
+				String dir = arg2;
+				System.setProperty("settings.dir", dir);
+			}
+		}
 		try {
 			log.log(Level.INFO, "Setting java visual theme to 'System'");
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			//UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			// UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			log.log(Level.SEVERE, "Error setting gui theme. Excepttion thrown: " + e.toString());
 		}
@@ -177,6 +197,7 @@ public class MainGUI {
 		tabStatistics.setLayout(new BorderLayout(0, 0));
 		{
 			txtStats = new JTextArea();
+			txtStats.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			txtStats.setEditable(false);
 			txtStats.setFocusable(false);
 			txtStats.setText(Lang.get(Lang.STATISTICS_RECORD_SOME_DATA));

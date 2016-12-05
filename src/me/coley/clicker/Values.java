@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 
 import com.google.common.collect.Maps;
 
+import me.coley.clicker.util.AbsoluteFile;
 import me.coley.clicker.util.Saveable;
 import me.coley.clicker.value.BooleanValue;
 import me.coley.clicker.value.NumericValue;
@@ -29,8 +30,8 @@ public class Values implements Saveable {
 	public static int SET_MIN_DELAY = 0;
 	public static int SET_WINDOW_TARGET = 10;
 	// Files for saving/loading
-	private static final File fileNumData = new File("settings_num.txt");
-	private static final File fileBoolData = new File("settings_bool.txt");
+	private static final File fileNumData = new AbsoluteFile("settings_num.txt");
+	private static final File fileBoolData = new AbsoluteFile("settings_bool.txt");
 	// Values
 	private Map<Integer, NumericValue> intMap = Maps.newLinkedHashMap();
 	private Map<Integer, BooleanValue> boolMap = Maps.newLinkedHashMap();
