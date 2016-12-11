@@ -13,4 +13,4 @@ CClicker is a simple auto-clicker made using JNA and Apache's Math library.
 
 # Images
 
-![Imgur](shot.png)
+![Screenshots](shot.png)
