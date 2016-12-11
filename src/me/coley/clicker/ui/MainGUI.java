@@ -9,8 +9,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -27,6 +29,7 @@ import me.coley.clicker.Keybinds;
 import me.coley.clicker.Stats;
 import me.coley.clicker.Values;
 import me.coley.clicker.agent.Agent;
+import me.coley.clicker.agent.AttatchListener;
 import me.coley.clicker.jna.KeyHandler;
 import me.coley.clicker.ui.controls.LabeledBindButton;
 import me.coley.clicker.ui.controls.LabeledCheckbox;
@@ -39,17 +42,19 @@ import me.coley.clicker.value.NumericValue;
 import me.coley.simplejna.hook.key.KeyHook;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
+
 import java.awt.FlowLayout;
 
 public class MainGUI {
@@ -59,6 +64,7 @@ public class MainGUI {
 	public final Clicker clicker = new Clicker(this);
 	public final Stats stats = new Stats(this);
 	private final KeyHandler handler = new KeyHandler(this);
+	private final boolean isAttatched;
 	public GraphingPanel graph;
 	private JFrame frmClicker;
 	private JTextArea txtStats;
@@ -71,18 +77,23 @@ public class MainGUI {
 		String curDir = System.getProperty("user.dir");
 		System.setProperty("settings.dir", curDir);
 		// Handle args if there are any
-		if (args.length >= 2) {
-			String arg1 = args[0];
-			String arg2 = args[1];
-			if (arg1.contains("agent")) {
-				// Agent that runs the program in another VM.
-				String target = arg2;
-				Agent.loadAgentToTarget(target, "dir:" + curDir);
-				return;
-			} else if (arg1.contains("dir")) {
-				// Adjusts the settings.dir property.
-				String dir = arg2;
-				System.setProperty("settings.dir", dir);
+		AtomicBoolean displayAgent = new AtomicBoolean(true);
+		if (args.length >= 0) {
+			for (String arg : args) {
+				if (arg.startsWith("agentTarget:")) {
+					// Agent that runs the program in another VM.
+					String target = arg.substring("agentTarget:".length());
+					Agent.loadAgentToTarget(target, "dir:" + curDir);
+					return;
+				} else if (arg.contains("dir:")) {
+					// Adjusts the settings.dir property.
+					String dir = arg.substring("dir:".length());
+					System.setProperty("settings.dir", dir);
+				} else if (arg.contains("displayAgentTab:")) {
+					//
+					String val = arg.substring("displayAgentTab:".length());
+					displayAgent.set(Boolean.parseBoolean(val));
+				}
 			}
 		}
 		try {
@@ -96,7 +107,7 @@ public class MainGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainGUI gui = new MainGUI();
+					MainGUI gui = new MainGUI(!displayAgent.get());
 					gui.initSettings();
 					gui.initGui();
 					gui.loadSettings();
@@ -105,6 +116,10 @@ public class MainGUI {
 				}
 			}
 		});
+	}
+
+	public MainGUI(boolean isAttatched) {
+		this.isAttatched = isAttatched;
 	}
 
 	/**
@@ -118,13 +133,24 @@ public class MainGUI {
 		frmClicker.setBounds(100, 100, 422, 398);
 		frmClicker.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frmClicker.addWindowListener(new WindowAdapter() {
-
 			@Override
 			public void windowClosing(WindowEvent e) {
 				log.log(Level.INFO, "Saving settings...");
 				settings.save();
 				keybinds.save();
-				System.exit(0);
+				if (!isAttatched) {
+					// Not attached, just suicide the program
+					System.exit(0);
+				} else {
+					// Attached, exiting would kill the parent program.
+					// Carefully disable / dispose instead.
+					if (clicker.getStatus())
+						clicker.toggle();
+					if (stats.getStatus())
+						stats.toggle();
+					KeyHook.unhook(handler);
+					frmClicker.dispose();
+				}
 			}
 		});
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP);
@@ -194,7 +220,6 @@ public class MainGUI {
 			tabSettings.add(combo);
 
 		}
-
 		JPanel tabStatistics = new JPanel();
 		tabs.addTab(Lang.get(Lang.STATISTICS_TITLE), null, tabStatistics, null);
 		tabStatistics.setLayout(new BorderLayout());
@@ -213,6 +238,29 @@ public class MainGUI {
 			sp.setBottomComponent(new JScrollPane(txtStats));
 			sp.setDividerLocation(frmClicker.getHeight() / 2);
 			tabStatistics.add(sp, BorderLayout.CENTER);
+		}
+		if (!isAttatched) {
+			JPanel tabAgent = new JPanel();
+			tabs.addTab(Lang.get(Lang.AGENT_TITLE), null, tabAgent, null);
+			tabAgent.setLayout(new BorderLayout());
+			JButton btnAction = new JButton(Lang.get(Lang.AGENT_ATTATCH_VM));
+			JList<String> list = new JList<String>();
+			list.setModel(Agent.getJVMS());
+			list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+			list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+			btnAction.addActionListener(new AttatchListener(list));
+			JScrollPane listScroller = new JScrollPane(list);
+			tabAgent.add(listScroller, BorderLayout.CENTER);
+			tabAgent.add(btnAction, BorderLayout.NORTH);
+			/*
+			 * list = new JList(data); //data has type Object[]
+			 * list.setSelectionMode(ListSelectionModel.
+			 * SINGLE_INTERVAL_SELECTION);
+			 * list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+			 * list.setVisibleRowCount(-1); ... JScrollPane listScroller = new
+			 * JScrollPane(list); listScroller.setPreferredSize(new
+			 * Dimension(250, 80));
+			 */
 		}
 		log.log(Level.INFO, "Displaying gui");
 		frmClicker.setVisible(true);

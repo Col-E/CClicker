@@ -24,6 +24,9 @@
 // Statistics tab text
 300:Statistics
 301:Record some data for details to appear here.
+// Agent tab text
+500:Agent
+501:Attatch
 // Changelog
 401:Initial release
 402:Fixed issue where the statistics key-interceptor would never be destroyed.\n\nRefactored code and added documentation to a few more classes.

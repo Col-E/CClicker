@@ -44,6 +44,9 @@ public class Lang {
 	// Statistics tab
 	STATISTICS_TITLE = 300,
 	STATISTICS_RECORD_SOME_DATA = 301,
+	// Agent tab
+	AGENT_TITLE = 500,
+	AGENT_ATTATCH_VM = 501,
 	// Changelog
 	CHANGELOG_1_0 = 401,
 	CHANGELOG_1_1 = 402,
