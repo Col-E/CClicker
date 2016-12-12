@@ -50,7 +50,8 @@ public class Lang {
 	// Changelog
 	CHANGELOG_1_0 = 401,
 	CHANGELOG_1_1 = 402,
-	CHANGELOG_1_2 = 403;
+	CHANGELOG_1_2 = 403,
+	CHANGELOG_1_3 = 404;
 	//@formatter:on
 	static {
 		File langFile = new AbsoluteFile("Lang.txt");
