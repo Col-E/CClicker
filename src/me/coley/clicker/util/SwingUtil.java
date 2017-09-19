@@ -55,6 +55,7 @@ public class SwingUtil {
 				versions.add(new GuiNavTreeNode("1.0", SwingUtil.getVersionPage("1.0")));
 				versions.add(new GuiNavTreeNode("1.1", SwingUtil.getVersionPage("1.1")));
 				versions.add(new GuiNavTreeNode("1.2", SwingUtil.getVersionPage("1.2")));
+				versions.add(new GuiNavTreeNode("1.3", SwingUtil.getVersionPage("1.3")));
 			}
 			DefaultMutableTreeNode usage = new GuiNavTreeNode(Lang.get(Lang.HOME_TREE_USAGEGUIDE), SwingUtil.buildPage(Lang.get(Lang.HOME_TREE_USAGEGUIDE), Lang.get(Lang.HOME_TREE_USAGEGUIDE_MSG)));
 			top.add(versions);
@@ -132,6 +133,9 @@ public class SwingUtil {
 			break;
 		case "1.2":
 			text = Lang.get(Lang.CHANGELOG_1_2);
+			break;
+		case "1.3":
+			text = Lang.get(Lang.CHANGELOG_1_3);
 			break;
 		}
 		return buildPage(version, text);

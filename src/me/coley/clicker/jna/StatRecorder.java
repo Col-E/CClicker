@@ -3,6 +3,7 @@ package me.coley.clicker.jna;
 import me.coley.clicker.Stats;
 import me.coley.clicker.ui.GraphingPanel;
 import me.coley.simplejna.hook.mouse.MouseEventReceiver;
+import me.coley.simplejna.hook.mouse.MouseHookManager;
 import me.coley.simplejna.hook.mouse.struct.MOUSEHOOKSTRUCT;
 import me.coley.simplejna.hook.mouse.struct.MouseButtonType;
 
@@ -11,7 +12,8 @@ public class StatRecorder extends MouseEventReceiver {
 	private final Stats stats;
 	private final GraphingPanel graph;
 
-	public StatRecorder(Stats stats, GraphingPanel graph) {
+	public StatRecorder(MouseHookManager hookManager, Stats stats, GraphingPanel graph) {
+		super(hookManager);
 		this.stats = stats;
 		this.graph = graph;
 	}
@@ -21,7 +23,7 @@ public class StatRecorder extends MouseEventReceiver {
 		long now = System.currentTimeMillis();
 		if (last != -1) {
 			stats.getFrequencyData().addValue(now - last);
-			graph.addValue((int) (now-last));
+			graph.addValue((int) (now - last));
 		}
 		last = now;
 		return false;

@@ -7,7 +7,6 @@ import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import me.coley.clicker.jna.StatRecorder;
 import me.coley.clicker.ui.MainGUI;
 import me.coley.simplejna.hook.mouse.MouseEventReceiver;
-import me.coley.simplejna.hook.mouse.MouseHook;
 
 /**
  * Handler for the recording mouse inputs.
@@ -31,8 +30,8 @@ public class Stats implements Togglable {
 		MainGUI.log.log(Level.INFO, "Beginning recording of mouse input.");
 		frequency = new DescriptiveStatistics();
 		MainGUI.log.log(Level.INFO, "Creating keybind-listener...");
-		mouseHook = new StatRecorder(this, gui.graph);
-		MouseHook.hook(mouseHook);
+		mouseHook = new StatRecorder(gui.mouseHooks, this, gui.graph);
+		gui.mouseHooks.hook(mouseHook);
 	}
 
 	@Override
@@ -40,7 +39,7 @@ public class Stats implements Togglable {
 		// Finished, save stats
 		MainGUI.log.log(Level.INFO, "Finished recording.");
 		if (mouseHook != null) {
-			MouseHook.unhook(mouseHook);
+			gui.mouseHooks.unhook(mouseHook);
 		}
 		gui.onRecordingFinished();
 	}

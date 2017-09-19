@@ -39,7 +39,8 @@ import me.coley.clicker.util.NumberUtil;
 import me.coley.clicker.util.SwingUtil;
 import me.coley.clicker.value.BooleanValue;
 import me.coley.clicker.value.NumericValue;
-import me.coley.simplejna.hook.key.KeyHook;
+import me.coley.simplejna.hook.key.KeyHookManager;
+import me.coley.simplejna.hook.mouse.MouseHookManager;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -63,7 +64,9 @@ public class MainGUI {
 	public final Keybinds keybinds = new Keybinds();
 	public final Clicker clicker = new Clicker(this);
 	public final Stats stats = new Stats(this);
-	private final KeyHandler handler = new KeyHandler(this);
+	public final KeyHookManager keyHooks = new KeyHookManager();
+	public final MouseHookManager mouseHooks = new MouseHookManager();
+	private final KeyHandler handler = new KeyHandler(keyHooks, this);
 	private final boolean isAttatched;
 	public GraphingPanel graph;
 	private JFrame frmClicker;
@@ -148,7 +151,7 @@ public class MainGUI {
 						clicker.toggle();
 					if (stats.getStatus())
 						stats.toggle();
-					KeyHook.unhook(handler);
+					keyHooks.unhook(handler);
 					frmClicker.dispose();
 				}
 			}
@@ -280,7 +283,7 @@ public class MainGUI {
 		keybinds.addKeyValue(Keybinds.BIND_TOGGLE_CLICKER, Lang.get(Lang.CONTROLS_TOGGLE_CLICK), -1);
 		keybinds.addKeyValue(Keybinds.BIND_TOGGLE_GUI, Lang.get(Lang.CONTROLS_TOGGLE_GUI), -1);
 		log.log(Level.INFO, "Creating keybind-listener...");
-		KeyHook.hook(handler);
+		keyHooks.hook(handler);
 	}
 
 	/**
