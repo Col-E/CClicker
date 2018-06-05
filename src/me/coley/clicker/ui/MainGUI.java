@@ -22,7 +22,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import me.coley.clicker.Clicker;
 import me.coley.clicker.Keybinds;
@@ -86,7 +86,7 @@ public class MainGUI {
 				if (arg.startsWith("agentTarget:")) {
 					// Agent that runs the program in another VM.
 					String target = arg.substring("agentTarget:".length());
-					Agent.loadAgentToTarget(target, "dir:" + curDir);
+					Agent.loadAgentToTaretFromVMName(target, "dir:" + curDir);
 					return;
 				} else if (arg.contains("dir:")) {
 					// Adjusts the settings.dir property.

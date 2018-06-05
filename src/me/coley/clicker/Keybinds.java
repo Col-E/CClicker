@@ -2,13 +2,13 @@ package me.coley.clicker;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-
-import com.google.common.collect.Maps;
 
 import me.coley.clicker.util.AbsoluteFile;
 import me.coley.clicker.util.Saveable;
@@ -28,13 +28,13 @@ public class Keybinds implements Saveable {
 	// File for saving/loading
 	private static final File fileBinds = new AbsoluteFile("keybinds.txt");
 	// Key to key name map
-	private static final Map<Integer, String> conv = Maps.newHashMap();
+	private static final Map<Integer, String> conv = new HashMap<>();
 	// Values
-	private Map<Integer, Integer> keybinds = Maps.newHashMap();
+	private Map<Integer, Integer> keybinds = new HashMap<>();
 	// Values - Names's
-	private Map<Integer, String> names = Maps.newHashMap();
+	private Map<Integer, String> names = new HashMap<>();
 	// Values - Attached components
-	private Map<Integer, ValueUser> registered = Maps.newHashMap();
+	private Map<Integer, ValueUser> registered = new HashMap<>();
 
 	/**
 	 * Add a value of the given ID to a given value and assign it a name.
@@ -122,7 +122,7 @@ public class Keybinds implements Saveable {
 	public void load() {
 		try {
 			if (fileBinds.exists()) {
-				List<String> linesN = FileUtils.readLines(fileBinds);
+				List<String> linesN = FileUtils.readLines(fileBinds, StandardCharsets.UTF_8);
 				for (String line : linesN) {
 					if (line.startsWith("/"))
 						continue;

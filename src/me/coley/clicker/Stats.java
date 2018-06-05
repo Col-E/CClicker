@@ -2,7 +2,7 @@ package me.coley.clicker;
 
 import java.util.logging.Level;
 
-import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 import me.coley.clicker.jna.StatRecorder;
 import me.coley.clicker.ui.MainGUI;

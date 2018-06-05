@@ -71,13 +71,11 @@ public class LabeledBindButton extends LabeledComponent implements ValueUser {
 				// That key will become the new bind.
 				KeyEventReceiver notifier = new KeyEventReceiver(gui.keyHooks) {
 					@Override
-					public boolean onKeyRelease(boolean sys, int vkCode) {
-						keyChanged(vkCode, this);
-						return false;
-					}
-
-					@Override
-					public boolean onKeyPress(boolean sys, int vkCode) {
+					public boolean onKeyUpdate(SystemState sys, PressState press, int time, int vkCode) {
+						if (press == PressState.UP) {
+							// on release
+							keyChanged(vkCode, this);
+						}
 						return false;
 					}
 				};

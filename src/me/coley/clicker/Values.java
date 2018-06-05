@@ -2,13 +2,13 @@ package me.coley.clicker;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-
-import com.google.common.collect.Maps;
 
 import me.coley.clicker.util.AbsoluteFile;
 import me.coley.clicker.util.Saveable;
@@ -33,12 +33,12 @@ public class Values implements Saveable {
 	private static final File fileNumData = new AbsoluteFile("settings_num.txt");
 	private static final File fileBoolData = new AbsoluteFile("settings_bool.txt");
 	// Values
-	private Map<Integer, NumericValue> intMap = Maps.newLinkedHashMap();
-	private Map<Integer, BooleanValue> boolMap = Maps.newLinkedHashMap();
+	private Map<Integer, NumericValue> intMap = new HashMap<>();
+	private Map<Integer, BooleanValue> boolMap = new HashMap<>();
 	// Values - Names's
-	private Map<Integer, String> names = Maps.newHashMap();
+	private Map<Integer, String> names = new HashMap<>();
 	// Values - Attached components
-	private Map<Integer, ValueUser> registered = Maps.newHashMap();
+	private Map<Integer, ValueUser> registered = new HashMap<>();
 
 	/**
 	 * Add a value of the given ID to a given value and assign it a name.
@@ -151,7 +151,7 @@ public class Values implements Saveable {
 	public void load() {
 		try {
 			if (fileNumData.exists()) {
-				List<String> linesN = FileUtils.readLines(fileNumData);
+				List<String> linesN = FileUtils.readLines(fileNumData, StandardCharsets.UTF_8);
 				for (String line : linesN) {
 					if (line.startsWith("/"))
 						continue;
@@ -163,7 +163,7 @@ public class Values implements Saveable {
 				}
 			}
 			if (fileNumData.exists()) {
-				List<String> linesB = FileUtils.readLines(fileBoolData);
+				List<String> linesB = FileUtils.readLines(fileBoolData, StandardCharsets.UTF_8);
 				for (String line : linesB) {
 					if (line.startsWith("/"))
 						continue;

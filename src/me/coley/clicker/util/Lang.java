@@ -2,12 +2,12 @@ package me.coley.clicker.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-
-import com.google.common.collect.Maps;
 
 /**
  * Simple i18n
@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
  * @author Matt
  */
 public class Lang {
-	private static final Map<Integer, String> lang = Maps.newHashMap();
+	private static final Map<Integer, String> lang = new HashMap<>();
 	//@formatter:off
 	public static final int 
 	// Home tab
@@ -57,7 +57,7 @@ public class Lang {
 		File langFile = new AbsoluteFile("Lang.txt");
 		List<String> lines = null;
 		try {
-			lines = FileUtils.readLines(langFile);
+			lines = FileUtils.readLines(langFile, StandardCharsets.UTF_8);
 			for (String line : lines) {
 				if (line.startsWith("/"))
 					continue;

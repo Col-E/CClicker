@@ -18,21 +18,19 @@ public class KeyHandler extends KeyEventReceiver {
 		super(hookManager);
 		this.gui = gui;
 	}
-
+	
 	@Override
-	public boolean onKeyPress(boolean sys, int vkCode) {
-		if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_RECORDING)) {
-			gui.stats.toggle();
-		} else if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_CLICKER)) {
-			gui.clicker.toggle();
-		} else if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_GUI)) {
-			gui.toggleVisible();
+	public boolean onKeyUpdate(SystemState sys, PressState press, int time, int vkCode) {
+		if (press == PressState.DOWN) {
+			// on press
+			if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_RECORDING)) {
+				gui.stats.toggle();
+			} else if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_CLICKER)) {
+				gui.clicker.toggle();
+			} else if (vkCode == gui.keybinds.getKey(Keybinds.BIND_TOGGLE_GUI)) {
+				gui.toggleVisible();
+			}
 		}
-		return false;
-	}
-
-	@Override
-	public boolean onKeyRelease(boolean sys, int vkCode) {
 		return false;
 	}
 }

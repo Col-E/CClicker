@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,7 +19,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import com.google.common.collect.Lists;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
 import me.coley.clicker.ui.GuiNavTreeNode;
@@ -71,7 +71,7 @@ public class SwingUtil {
 	 */
 	public static ComboBoxModel<String> getWindowsModel() {
 		String[] a = null;
-		List<String> l = Lists.newArrayList();
+		List<String> l = new ArrayList<>();
 		for (Entry<HWND, String> e : Windows.getWindows().entrySet()) {
 			String s = e.getValue();
 			if (s.length() > 0 && !l.contains(s)) {

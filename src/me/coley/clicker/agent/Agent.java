@@ -2,6 +2,7 @@ package me.coley.clicker.agent;
 
 import java.io.File;
 import java.lang.instrument.Instrumentation;
+import java.security.CodeSource;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
@@ -10,6 +11,7 @@ import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
 
 import me.coley.clicker.ui.MainGUI;
+import net.bytebuddy.agent.ByteBuddyAgent;
 
 /**
  * Entry point used for injecting the auto-clicker into another java process.
@@ -34,42 +36,40 @@ public class Agent {
 			String dir = agentArgs.substring(agentArgs.indexOf(":") + 1);
 			MainGUI.main(new String[] { "dir:" + dir, "displayAgentTab:false" });
 		} else {
-			MainGUI.main(new String[] {"displayAgentTab:false"});
+			MainGUI.main(new String[] { "displayAgentTab:false" });
 		}
 	}
-
 	/**
 	 * Loads this agent into a given VM.
 	 * 
-	 * @param agentPath
-	 *            The path to the agent jar
+	 * @param name
+	 *            Target VM display name.
+	 * @param options
+	 *            Launch arguments for the agent.
 	 */
-	public static void loadAgentToTarget(String target, String options) {
-		// Oddly though using this only works half of the times.
-		// Tried it 10 times command line.
-		// Five times it injected into the target VM
-		// Five times it ran as if no arguments were given at all
-		// TODO: Figure out why this behaves oddly
+	public static void loadAgentToTaretFromVMName(String name, String options) {
 		for (VirtualMachineDescriptor vm : VirtualMachine.list()) {
-			if (vm.displayName().contains(target)) {
-				loadAgent(getCurrentLocation(), vm.id(), options);
+			if (vm.displayName().contains(name)) {
+				loadAgentToTarget(vm.id(), options);
 				break;
 			}
 		}
 	}
 
+
 	/**
-	 * Loads an agent into a given VM.
+	 * Loads this agent into a given VM.
 	 * 
-	 * @param agentPath
-	 * @param vmID
+	 * @param pid
+	 *            Process PID of target VM.
+	 * @param options
+	 *            Launch arguments for the agent.
 	 */
-	private static void loadAgent(String agentPath, String vmID, String options) {
+	public static void loadAgentToTarget(String pid, String options) {
 		try {
-			VirtualMachine vm = VirtualMachine.attach(vmID);
-			vm.loadAgent(agentPath, options);
+			ByteBuddyAgent.attach(getSelf(), pid);
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}
 	}
 
@@ -78,14 +78,18 @@ public class Agent {
 	 * 
 	 * @return
 	 */
-	private static String getCurrentLocation() {
-		// Wrapped in File.getAbsolutePath() because the path it returns it
-		// looks nicer.
-		return new File(Agent.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getAbsolutePath();
+	private static File getSelf() throws Exception {
+		CodeSource codeSource = Agent.class.getProtectionDomain().getCodeSource();
+		File jarFile = new File(codeSource.getLocation().toURI().getPath());
+		if (!jarFile.getName().toLowerCase().endsWith(".jar")) {
+			throw new RuntimeException(
+					"Please run recaf as a jar file to attach. You ran from: " + jarFile.getAbsolutePath());
+		}
+		return jarFile;
 	}
 
 	public static ListModel<String> getJVMS() {
-		DefaultListModel<String>  model = new DefaultListModel<String> ();
+		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (VirtualMachineDescriptor vm : VirtualMachine.list()) {
 			model.addElement(vm.displayName());
 		}
