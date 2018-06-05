@@ -18,7 +18,7 @@ public class AttatchListener implements ActionListener {
 		if (i != -1) {
 			String id = list.getModel().getElementAt(i);
 			try {
-				Agent.loadAgentToTarget(id, "dir:" + System.getProperty("settings.dir"));
+				Agent.loadAgentToTaretFromVMName(id, "dir:" + System.getProperty("settings.dir"));
 				System.exit(0);
 			} catch (Exception ex) {
 				ex.printStackTrace();

@@ -11,7 +11,6 @@ import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
 
 import me.coley.clicker.ui.MainGUI;
-import net.bytebuddy.agent.ByteBuddyAgent;
 
 /**
  * Entry point used for injecting the auto-clicker into another java process.
@@ -39,6 +38,7 @@ public class Agent {
 			MainGUI.main(new String[] { "displayAgentTab:false" });
 		}
 	}
+
 	/**
 	 * Loads this agent into a given VM.
 	 * 
@@ -48,28 +48,19 @@ public class Agent {
 	 *            Launch arguments for the agent.
 	 */
 	public static void loadAgentToTaretFromVMName(String name, String options) {
-		for (VirtualMachineDescriptor vm : VirtualMachine.list()) {
-			if (vm.displayName().contains(name)) {
-				loadAgentToTarget(vm.id(), options);
-				break;
+		for (VirtualMachineDescriptor vmDesc : VirtualMachine.list()) {
+			if (vmDesc.displayName().contains(name)) {
+				new Thread(() -> {
+					try {
+						VirtualMachine vm = VirtualMachine.attach(vmDesc);
+						vm.loadAgent(getSelf().getAbsolutePath(), "-agent");
+						vm.detach();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}).start();
+				return;
 			}
-		}
-	}
-
-
-	/**
-	 * Loads this agent into a given VM.
-	 * 
-	 * @param pid
-	 *            Process PID of target VM.
-	 * @param options
-	 *            Launch arguments for the agent.
-	 */
-	public static void loadAgentToTarget(String pid, String options) {
-		try {
-			ByteBuddyAgent.attach(getSelf(), pid);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
