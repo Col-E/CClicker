@@ -105,6 +105,15 @@
 					</execution>
 				</executions>
 				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>me.coley.clicker.ui.MainGUI</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Premain-Class>me.coley.clicker.agent.Agent</Premain-Class>
+							<Agent-Class>me.coley.clicker.agent.Agent</Agent-Class>
+						</manifestEntries>
+					</archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
